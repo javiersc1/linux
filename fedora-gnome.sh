@@ -31,6 +31,7 @@ sudo dnf install -y syncthing # file syncing program
 
 # flatpak setup
 sudo dnf install -y flatpak
+sudo flatpak remote-delete fedora
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 # flatpak packages
 flatpak install -y org.gnome.Extensions ca.desrt.dconf-editor com.github.tchx84.Flatseal # gnome utils and flatpak permission program
