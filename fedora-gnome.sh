@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd ~
+
 # necessary packages for install
 sudo dnf install -y pip git curl
 
@@ -49,6 +51,8 @@ pip install jupyterlab # jupyter framwork
 
 # julia setup
 curl -fsSL https://install.julialang.org | sh -s -- --yes
+source ~/.bashrc
+
 julia -e 'import Pkg;Pkg.add("IJulia")'
 julia -e 'using IJulia; installkernel("Julia (16 threads)", env=Dict("JULIA_NUM_THREADS"=>"16"))'
 julia -e 'using IJulia; installkernel("Julia (32 threads)", env=Dict("JULIA_NUM_THREADS"=>"32"))'
@@ -99,10 +103,13 @@ grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 
-# bash mods
+# bash mods + starship
+curl -sS https://starship.rs/install.sh | sh -s -- --yes
 LINE='neofetch --disable packages'
 FILE='.bashrc'
 grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+LINE='eval "$(starship init bash)"'
+grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+cp linux/configs/starship.toml ~/.config/starship.toml
 
-# install starship
-curl -sS https://starship.rs/install.sh | sh
+
