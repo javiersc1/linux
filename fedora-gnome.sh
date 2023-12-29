@@ -26,7 +26,7 @@ sudo dnf install -y steam mangohud goverlay # gaming
 sudo dnf install -y qdirstat cpu-x gparted qbittorrent # utilities
 sudo dnf install -y libreoffice # office program
 sudo dnf install -y gimp inkscape # image programs
-sudo dnf install -y vlc handbrake # video programs
+sudo dnf install -y vlc # video programs
 sudo dnf install -y syncthing # file syncing program
 
 # flatpak setup
@@ -44,6 +44,7 @@ flatpak install -y org.prismlauncher.PrismLauncher # minecraft launcher
 flatpak install -y com.github.jeromerobert.pdfarranger # PDF arranging program
 flatpak install -y com.slack.Slack us.zoom.Zoom # proprietary programs 
 flatpak install -y org.bunkus.mkvtoolnix-gui com.github.huluti.Curtail # modify video files and image compression program
+flatpak install -y fr.handbrake.ghb # video transcoding
 
 # python packages
 pip install psutil pyusb # for switch payload use
@@ -91,20 +92,21 @@ sudo make install
 cd ~
 LINE='export LD_PRELOAD=/usr/local/lib/spotify-adblock.so'
 FILE='/usr/bin/spotify'
-grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+sudo grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 
 # virtualization
-sudo dnf group install --with-optional virtualization
+sudo dnf group install -y --with-optional virtualization
 sudo usermod -a -G libvirt $(whoami)
 LINE='unix_sock_group = "libvirt"'
 FILE='/etc/libvirt/libvirtd.conf'
-grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+sudo grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 LINE='unix_sock_rw_perms = "0770"'
-grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+sudo grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 
 # bash mods + starship
+sudo dnf install -y fira-code-fonts
 curl -sS https://starship.rs/install.sh | sh -s -- --yes
 LINE='neofetch --disable packages'
 FILE='.bashrc'
