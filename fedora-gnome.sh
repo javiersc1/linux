@@ -92,16 +92,16 @@ sudo make install
 cd ~
 LINE='export LD_PRELOAD=/usr/local/lib/spotify-adblock.so'
 FILE='/usr/bin/spotify'
-sudo grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+sudo grep -qF -- "$LINE" "$FILE" || sudo echo "$LINE" >> "$FILE"
 
 # virtualization
 sudo dnf group install -y --with-optional virtualization
 sudo usermod -a -G libvirt $(whoami)
 LINE='unix_sock_group = "libvirt"'
 FILE='/etc/libvirt/libvirtd.conf'
-sudo grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+sudo grep -qF -- "$LINE" "$FILE" || sudo echo "$LINE" >> "$FILE"
 LINE='unix_sock_rw_perms = "0770"'
-sudo grep -qF -- "$LINE" "$FILE" || echo "$LINE" >> "$FILE"
+sudo grep -qF -- "$LINE" "$FILE" || sudo echo "$LINE" >> "$FILE"
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 
