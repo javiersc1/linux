@@ -7,27 +7,30 @@ sudo dnf install -y pip git curl
 
 # install gnome extensions
 pip install gnome-extensions-cli
+source ~/.bashrc
 gext install caffeine@patapon.info
 gext install dash-to-dock@micxgx.gmail.com
 gext install gtk4-ding@smedius.gitlab.com
 gext install super-key@tommimon.github.com
 
 # repos
-sudo dnf config-manager --add-repo=https://negativo17.org/repos/fedora-spotify.repo
+sudo dnf config-manager --add-repo https://negativo17.org/repos/fedora-spotify.repo
 sudo dnf config-manager --add-repo https://repository.mullvad.net/rpm/stable/mullvad.repo
 
 # packages
 sudo dnf install -y ulauncher wmctrl # launcher
 sudo dnf install -y micro btop neofetch nvtop # terminal utilities
 sudo dnf install -y texlive-scheme-full texmaker #latex setup
-sudo dnf install -y spotify-client # spotify client
-sudo dnf install -y rust cargo # rust framework for spotify client
+sudo dnf install -y spotify-client rust cargo # spotify client and rust framework for patch
 sudo dnf install -y steam mangohud goverlay # gaming
 sudo dnf install -y qdirstat cpu-x gparted qbittorrent # utilities
 sudo dnf install -y libreoffice # office program
-sudo dnf install -y gimp inkscape # image programs
-sudo dnf install -y vlc # video programs
+sudo dnf install -y gimp inkscape vlc # image and video programs
+
+# syncthing setup
 sudo dnf install -y syncthing # file syncing program
+sudo systemctl enable syncthing@$USER.service
+sudo systemctl start syncthing@$USER.service
 
 # flatpak setup
 sudo dnf install -y flatpak
@@ -43,8 +46,7 @@ flatpak install -y com.brave.Browser # chromium based browser
 flatpak install -y org.prismlauncher.PrismLauncher # minecraft launcher
 flatpak install -y com.github.jeromerobert.pdfarranger # PDF arranging program
 flatpak install -y com.slack.Slack us.zoom.Zoom # proprietary programs 
-flatpak install -y org.bunkus.mkvtoolnix-gui com.github.huluti.Curtail # modify video files and image compression program
-flatpak install -y fr.handbrake.ghb # video transcoding
+flatpak install -y org.bunkus.mkvtoolnix-gui com.github.huluti.Curtail fr.handbrake.ghb # video and image tools
 
 # python packages
 pip install psutil pyusb # for switch payload use
@@ -90,18 +92,13 @@ cd spotify-adblock
 make
 sudo make install
 cd ~
-LINE='export LD_PRELOAD=/usr/local/lib/spotify-adblock.so'
-FILE='/usr/bin/spotify'
-sudo grep -qF -- "$LINE" "$FILE" || sudo echo "$LINE" >> "$FILE"
+echo 'export LD_PRELOAD=/usr/local/lib/spotify-adblock.so' | sudo tee -a /usr/bin/spotify
 
 # virtualization
 sudo dnf group install -y --with-optional virtualization
 sudo usermod -a -G libvirt $(whoami)
-LINE='unix_sock_group = "libvirt"'
-FILE='/etc/libvirt/libvirtd.conf'
-sudo grep -qF -- "$LINE" "$FILE" || sudo echo "$LINE" >> "$FILE"
-LINE='unix_sock_rw_perms = "0770"'
-sudo grep -qF -- "$LINE" "$FILE" || sudo echo "$LINE" >> "$FILE"
+echo 'unix_sock_group = "libvirt"' | sudo tee -a /etc/libvirt/libvirtd.conf
+echo 'unix_sock_rw_perms = "0770"' | sudo tee -a /etc/libvirt/libvirtd.conf
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 
