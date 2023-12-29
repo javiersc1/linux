@@ -92,13 +92,13 @@ cd spotify-adblock
 make
 sudo make install
 cd ~
-echo 'export LD_PRELOAD=/usr/local/lib/spotify-adblock.so' | sudo tee -a /usr/bin/spotify
+sudo sed -i '13c\export LD_PRELOAD=/usr/local/lib/spotify-adblock.so/' /usr/bin/spotify
 
 # virtualization
 sudo dnf group install -y --with-optional virtualization
 sudo usermod -a -G libvirt $(whoami)
-echo 'unix_sock_group = "libvirt"' | sudo tee -a /etc/libvirt/libvirtd.conf
-echo 'unix_sock_rw_perms = "0770"' | sudo tee -a /etc/libvirt/libvirtd.conf
+sudo sed -i '85c\unix_sock_group = "libvirt"' /etc/libvirt/libvirtd.conf
+sudo sed -i '108c\unix_sock_rw_perms = "0770"' /etc/libvirt/libvirtd.conf
 sudo systemctl start libvirtd
 sudo systemctl enable libvirtd
 
