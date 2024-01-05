@@ -47,14 +47,14 @@
   },
   "hyprland/workspaces": {
     "persistent-workspaces": {
-                 "*": 3, // 5 workspaces by default on every monitor
+                 "*": 5, // 5 workspaces by default on every monitor
            },
-    "format": "{icon}",
-    "format-icons": {
-                 "1": "󰈹",
-                 "2": "",
-                 "3": "󰓇"
-             }
+   // "format": "{icon}",
+   // "format-icons": {
+   //              "1": "󰈹",
+   //              "2": "",
+   //              "3": "󰓇"
+   //          }
   },
   "cpu": {
     "interval": 15,
