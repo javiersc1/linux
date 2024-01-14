@@ -24,8 +24,9 @@
     "idle_inhibitor",
     "tray",
      // "privacy",
-    "mpris"
-    // "custom/separator",
+    "mpris",
+    //"custom/separator",
+    "custom/power"
   ],
   "mpris": {
   	"format": "| {player_icon} {title} {position}/{length}",
@@ -126,6 +127,11 @@
     "format-critical": " {temperatureC}°C",
     "format": " {temperatureC}°C"
   },
+  "custom/power": {
+           "format": " ",
+           "tooltip": false,
+           "on-click": "wlogout",
+      },
   "privacy": {
   	"icon-spacing": 4,
   	"icon-size": 18,
